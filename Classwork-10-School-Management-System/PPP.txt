@@ -1,0 +1,183 @@
+PPP
+Classwork 10
+Armando Karin Molina Marrufo
+
+# --- PROCESO: Configurar todos los datos del sistema ---
+
+# Crear diccionario de usuarios con los 8 usuarios (6 alumnos, 1 maestro, 1 coordinador)
+usuarios <- {
+    'jperez'     : contraseña='1234', rol='alumno',       nombre='Juan Perez',
+    'amartin'    : contraseña='1234', rol='alumno',       nombre='Ana Martin',
+    'clopez'     : contraseña='1234', rol='alumno',       nombre='Carlos Lopez',
+    'lhernandez' : contraseña='1234', rol='alumno',       nombre='Lucia Hernandez',
+    'pgarcia'    : contraseña='1234', rol='alumno',       nombre='Pedro Garcia',
+    'mrojas'     : contraseña='1234', rol='alumno',       nombre='Maria Rojas',
+    'mlopez'     : contraseña='1234', rol='maestro',      nombre='Maria Lopez',
+    'rgarcia'    : contraseña='1234', rol='coordinador',  nombre='Rosa Garcia'
+}
+
+# Crear tupla de materias (fija, nunca cambia durante la ejecución)
+materias <- ('Matematicas', 'Programacion', 'Ingles')
+
+# Crear diccionario de calificaciones, una entrada por alumno
+calificaciones <- {
+    'jperez'     : {Matematicas: 8.5, Programacion: 9.0, Ingles: 7.5},
+    'amartin'    : {Matematicas: 9.0, Programacion: 8.0, Ingles: 8.5},
+    'clopez'     : {Matematicas: 7.0, Programacion: 7.5, Ingles: 6.5},
+    'lhernandez' : {Matematicas: 8.0, Programacion: 9.5, Ingles: 9.0},
+    'pgarcia'    : {Matematicas: 6.5, Programacion: 8.0, Ingles: 7.0},
+    'mrojas'     : {Matematicas: 9.5, Programacion: 8.5, Ingles: 8.0}
+}
+
+============================================================
+# --- CICLO DE LOGIN ---
+============================================================
+
+# PROCESO: Inicializar bandera de sesión en Falso
+logged_in <- Falso
+usuario_actual <- vacío
+rol <- vacío
+nombre <- vacío
+
+# PROCESO: Repetir hasta que las credenciales sean correctas
+MIENTRAS logged_in sea igual a Falso HACER
+
+    # ENTRADA: Pedir al usuario su nombre de usuario
+    usuario_actual <- pedir al usuario "Usuario: "
+
+    # ENTRADA: Pedir al usuario su contraseña
+    contraseña <- pedir al usuario "Contraseña: "
+
+    # PROCESO: Verificar si el usuario existe Y si la contraseña coincide
+    SI usuario_actual está en usuarios Y usuarios[usuario_actual][contraseña] es igual a contraseña ENTONCES
+        # PROCESO: Marcar sesión como exitosa y guardar rol y nombre
+        logged_in <- Verdadero
+        rol <- usuarios[usuario_actual][rol]
+        nombre <- usuarios[usuario_actual][nombre]
+    SINO
+        # SALIDA: Mostrar mensaje de error y volver a pedir datos
+        imprimir "Usuario o contraseña incorrectos. Intente de nuevo."
+    FIN SI
+
+FIN MIENTRAS
+
+# SALIDA: Mostrar mensaje de bienvenida con nombre y rol
+imprimir "Bienvenido, " + nombre + " (" + rol + ")"
+
+============================================================
+# --- RAMIFICACIÓN POR ROL ---
+============================================================
+
+# PROCESO: Verificar el rol y dirigir al menú correspondiente
+SI rol es igual a "alumno" ENTONCES
+
+    ============================================================
+    # --- MENÚ ALUMNO ---
+    ============================================================
+
+    # SALIDA: Imprimir encabezado de la boleta
+    imprimir "Boleta de " + nombre
+
+    # PROCESO: Crear conjunto vacío para las materias aprobadas
+    aprobadas <- conjunto vacío
+
+    # PROCESO: Recorrer cada materia en la tupla materias
+    PARA CADA materia EN materias HACER
+
+        # PROCESO: Obtener la calificación de esta materia desde calificaciones
+        calificacion <- calificaciones[usuario_actual][materia]
+
+        # SALIDA: Imprimir nombre de la materia y su calificación
+        imprimir materia + ": " + calificacion
+
+        # PROCESO: Verificar si la calificación es mayor o igual a 8.0
+        SI calificacion >= 8.0 ENTONCES
+            # PROCESO: Agregar materia al conjunto de aprobadas
+            agregar materia a aprobadas
+        FIN SI
+
+    FIN PARA
+
+    # PROCESO: Calcular materias pendientes usando diferencia de conjuntos
+    pendientes <- conjunto(materias) menos aprobadas
+
+    # SALIDA: Imprimir ambos conjuntos
+    imprimir "Materias aprobadas: " + aprobadas
+    imprimir "Materias pendientes: " + pendientes
+
+SINO SI rol es igual a "maestro" ENTONCES
+
+    ============================================================
+    # --- MENÚ MAESTRO ---
+    ============================================================
+
+    # SALIDA: Imprimir encabezado de lista de alumnos
+    imprimir "Lista de alumnos:"
+
+    # PROCESO: Recorrer todos los usuarios y filtrar solo los de rol alumno
+    PARA CADA usuario EN usuarios HACER
+        SI usuarios[usuario][rol] es igual a "alumno" ENTONCES
+            # SALIDA: Imprimir nombre de usuario y nombre completo
+            imprimir usuario + " - " + usuarios[usuario][nombre]
+        FIN SI
+    FIN PARA
+
+    # ENTRADA: Pedir al maestro qué alumno desea calificar (por nombre de usuario)
+    alumno_sel <- pedir al usuario "Alumno (username): "
+
+    # ENTRADA: Pedir qué materia desea actualizar
+    materia_sel <- pedir al usuario "Materia: "
+
+    # ENTRADA: Pedir la nueva calificación (como número decimal)
+    nueva_cal <- pedir al usuario "Nueva calificación: " (convertir a decimal)
+
+    # PROCESO: Sobreescribir la calificación anterior en calificaciones
+    calificaciones[alumno_sel][materia_sel] <- nueva_cal
+
+    # SALIDA: Confirmar que la actualización fue exitosa
+    imprimir "Calificación actualizada."
+
+SINO SI rol es igual a "coordinador" ENTONCES
+
+    ============================================================
+    # --- MENÚ COORDINADOR (solo lectura) ---
+    ============================================================
+
+    # SALIDA: Imprimir encabezado de sección de maestros
+    imprimir "=== MAESTROS ==="
+
+    # PROCESO: Recorrer todos los usuarios y filtrar solo los de rol maestro
+    PARA CADA usuario EN usuarios HACER
+        SI usuarios[usuario][rol] es igual a "maestro" ENTONCES
+            # SALIDA: Imprimir nombre de usuario y nombre completo
+            imprimir usuario + " - " + usuarios[usuario][nombre]
+        FIN SI
+    FIN PARA
+
+    # SALIDA: Imprimir encabezado de sección de materias
+    imprimir "=== MATERIAS ==="
+
+    # PROCESO: Recorrer la tupla de materias
+    PARA CADA materia EN materias HACER
+        # SALIDA: Imprimir cada materia
+        imprimir materia
+    FIN PARA
+
+    # SALIDA: Imprimir encabezado de sección de alumnos y calificaciones
+    imprimir "=== ALUMNOS Y CALIFICACIONES ==="
+
+    # PROCESO: Recorrer cada alumno en calificaciones
+    PARA CADA alumno EN calificaciones HACER
+
+        # SALIDA: Imprimir nombre completo y nombre de usuario del alumno
+        imprimir usuarios[alumno][nombre] + " (" + alumno + "):"
+
+        # PROCESO: Recorrer materias para imprimir cada calificación
+        PARA CADA materia EN materias HACER
+            # SALIDA: Imprimir materia y calificación con sangría
+            imprimir "  " + materia + ": " + calificaciones[alumno][materia]
+        FIN PARA
+
+    FIN PARA
+
+FIN SI
