@@ -241,3 +241,4 @@ elif role == 'coordinator':
         for student in student_list:
             row += f' | {grades[student][subject]:{col_val}}'
         print(row)
+
