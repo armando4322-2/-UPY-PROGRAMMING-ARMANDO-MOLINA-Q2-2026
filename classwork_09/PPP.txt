@@ -1,0 +1,17 @@
+INPUT
+   Get verb from user                    
+
+PROCESS
+   # Step 1: split the verb into stem and ending
+   stem <- verb[0 : length(verb) - 2]
+   ending <- verb[length(verb) - 2 : length(verb)]
+
+   # Step 2: look up the matching list of endings
+   verb_endings <- endings[ending]
+
+   # Step 3: build the conjugated form for each pronoun
+   LOOP for each index from 0 to 5:
+      SET conjugated_form <- pronouns[index] + " " + stem + verb_endings[index]
+
+OUTPUT
+   Display conjugated_form for each index
