@@ -1,33 +1,69 @@
-# Classwork 10 - Sistema de Gestión Escolar
+# Classwork 10 - School Management System
 # Armando Karin Molina Marrufo
-
 
 # PROCESS - Define all system data before starting logic
 
-# Users dictionary: username -> {password, rol, nombre}
-usuarios = {
-    'jperez':     {'password': '1234', 'rol': 'alumno',       'nombre': 'Juan Pérez'},
-    'amartin':    {'password': '1234', 'rol': 'alumno',       'nombre': 'Ana Martín'},
-    'clopez':     {'password': '1234', 'rol': 'alumno',       'nombre': 'Carlos López'},
-    'lhernandez': {'password': '1234', 'rol': 'alumno',       'nombre': 'Lucía Hernández'},
-    'pgarcia':    {'password': '1234', 'rol': 'alumno',       'nombre': 'Pedro García'},
-    'mrojas':     {'password': '1234', 'rol': 'alumno',       'nombre': 'María Rojas'},
-    'mlopez':     {'password': '1234', 'rol': 'maestro',      'nombre': 'María López'},
-    'rgarcia':    {'password': '1234', 'rol': 'coordinador',  'nombre': 'Rosa García'},
+# Users dictionary: username -> {password, role, name}
+users = {
+    'jperez':   {'password': '1234', 'role': 'student',     'name': 'Juan Pérez'},
+    'dromo':    {'password': '1234', 'role': 'student',     'name': 'Daniela Romo'},
+    'mjuarez':  {'password': '1234', 'role': 'student',     'name': 'Mauricio Juárez'},
+    'mlopez':   {'password': '1234', 'role': 'student',     'name': 'María López'},
+    'euc':      {'password': '1234', 'role': 'student',     'name': 'Ernesto Uc'},
+    'cbalam':   {'password': '1234', 'role': 'student',     'name': 'Carlos Balam'},
+    'jpedrozo': {'password': '1234', 'role': 'professor',   'name': 'Jorge Pedrozo'},
+    'dgamboa':  {'password': '1234', 'role': 'coordinator', 'name': 'Didier Gamboa'},
 }
 
 # Subjects tuple - fixed set, never changes during execution
-materias = ('Matemáticas', 'Programación', 'Inglés')
+subjects = (
+    'Discrete Mathematics',
+    'Programming',
+    'English II',
+    'Differential Calculus',
+    'Probability and Statistics',
+    'Computer and Server Architecture',
+    'Socio-Emotional Skills and Conflict Management',
+)
 
 # Grades dictionary: student username -> {subject: grade}
-# Keys must match student usernames in usuarios
-calificaciones = {
-    'jperez':     {'Matemáticas': 8.5, 'Programación': 9.0, 'Inglés': 7.5},
-    'amartin':    {'Matemáticas': 9.0, 'Programación': 8.0, 'Inglés': 8.5},
-    'clopez':     {'Matemáticas': 7.0, 'Programación': 7.5, 'Inglés': 6.5},
-    'lhernandez': {'Matemáticas': 8.0, 'Programación': 9.5, 'Inglés': 9.0},
-    'pgarcia':    {'Matemáticas': 6.5, 'Programación': 8.0, 'Inglés': 7.0},
-    'mrojas':     {'Matemáticas': 9.5, 'Programación': 8.5, 'Inglés': 8.0},
+grades = {
+    'jperez':  {
+        'Discrete Mathematics': 8.5, 'Programming': 9.2, 'English II': 9.0,
+        'Differential Calculus': 7.8, 'Probability and Statistics': 8.3,
+        'Computer and Server Architecture': 6.8,
+        'Socio-Emotional Skills and Conflict Management': 9.5,
+    },
+    'dromo':   {
+        'Discrete Mathematics': 9.0, 'Programming': 6.7, 'English II': 9.4,
+        'Differential Calculus': 6.2, 'Probability and Statistics': 9.1,
+        'Computer and Server Architecture': 6.5,
+        'Socio-Emotional Skills and Conflict Management': 9.8,
+    },
+    'mjuarez': {
+        'Discrete Mathematics': 7.5, 'Programming': 8.0, 'English II': 8.5,
+        'Differential Calculus': 7.0, 'Probability and Statistics': 7.8,
+        'Computer and Server Architecture': 6.2,
+        'Socio-Emotional Skills and Conflict Management': 8.9,
+    },
+    'mlopez':  {
+        'Discrete Mathematics': 9.5, 'Programming': 9.8, 'English II': 9.2,
+        'Differential Calculus': 9.0, 'Probability and Statistics': 9.6,
+        'Computer and Server Architecture': 9.4,
+        'Socio-Emotional Skills and Conflict Management': 10.0,
+    },
+    'euc':     {
+        'Discrete Mathematics': 8.2, 'Programming': 6.9, 'English II': 8.8,
+        'Differential Calculus': 6.0, 'Probability and Statistics': 6.4,
+        'Computer and Server Architecture': 8.1,
+        'Socio-Emotional Skills and Conflict Management': 9.0,
+    },
+    'cbalam':  {
+        'Discrete Mathematics': 8.8, 'Programming': 9.0, 'English II': 8.5,
+        'Differential Calculus': 6.6, 'Probability and Statistics': 8.9,
+        'Computer and Server Architecture': 8.7,
+        'Socio-Emotional Skills and Conflict Management': 9.2,
+    },
 }
 
 # ============================================================
@@ -36,137 +72,172 @@ calificaciones = {
 
 # PROCESS - Initialize login variables
 logged_in = False
-usuario_actual = ''
-rol = ''
-nombre = ''
+current_user = ''
+role = ''
+name = ''
 
 while not logged_in:
 
-    # INPUT - Ask for username
-    usuario_actual = input('Usuario: ')
-
-    # INPUT - Ask for password
-    password = input('Contraseña: ')
+    # INPUT - Ask for username and password
+    current_user = input('User: ')
+    password = input('Password: ')
 
     # PROCESS - Check if username exists and password matches
-    if usuario_actual in usuarios and usuarios[usuario_actual]['password'] == password:
+    if current_user in users and users[current_user]['password'] == password:
         logged_in = True
-        rol = usuarios[usuario_actual]['rol']
-        nombre = usuarios[usuario_actual]['nombre']
+        role = users[current_user]['role']
+        name = users[current_user]['name']
     else:
         # OUTPUT - Notify wrong credentials and loop again
-        print('Usuario o contraseña incorrectos. Intente de nuevo.\n')
+        print('Wrong username or password. Try again.\n')
 
 # OUTPUT - Show welcome message
-print(f'\nBienvenido, {nombre} ({rol})\n')
+print(f'\nWelcome, {name} ({role})\n')
 
 # ============================================================
 # ROLE BRANCHING - if/elif/else based on role
 # ============================================================
 
-if rol == 'alumno':
+if role == 'student':
 
     # ----------------------------------------------------------
     # STUDENT MENU
     # ----------------------------------------------------------
 
     # OUTPUT - Print grade report header
-    print(f'Boleta de {nombre}')
-    print('-' * 30)
+    print('=' * 30)
+    print(' School Report')
+    print('=' * 30)
 
-    # PROCESS - Initialize empty sets for approved and pending subjects
-    aprobadas = set()
+    # PROCESS - Initialize empty set for approved subjects
+    approved = set()
 
-    # PROCESS - Loop over materias tuple to display and evaluate each grade
-    for materia in materias:
+    # PROCESS - Loop over subjects tuple to display and evaluate each grade
+    for subject in subjects:
 
-        # PROCESS - Get grade for this subject from calificaciones
-        calificacion = calificaciones[usuario_actual][materia]
+        # PROCESS - Get grade for this subject from grades
+        grade = grades[current_user][subject]
 
-        # OUTPUT - Print subject name and its grade
-        print(f'{materia}: {calificacion}')
+        # OUTPUT - Print subject name and its grade aligned
+        print(f'{subject:<35}: {grade}')
 
         # PROCESS - Check if grade meets the approval threshold (>= 8.0)
-        if calificacion >= 8.0:
-            aprobadas.add(materia)
+        if grade >= 8.0:
+            approved.add(subject)
 
     # PROCESS - Calculate pending subjects using set difference
-    pendientes = set(materias) - aprobadas
+    pending = set(subjects) - approved
 
     # OUTPUT - Print both sets
-    print(f'\nMaterias aprobadas: {aprobadas}')
-    print(f'Materias pendientes: {pendientes}')
+    print(f'\nApproved: {approved}')
+    print(f'Pending : {pending}')
 
-elif rol == 'maestro':
+elif role == 'professor':
 
     # ----------------------------------------------------------
-    # TEACHER MENU
+    # PROFESSOR MENU
     # ----------------------------------------------------------
 
     # OUTPUT - Print list of all students
-    print('Lista de alumnos:')
-    print('-' * 30)
+    print('=' * 30)
+    print(' Students')
+    print('=' * 30)
 
-    # PROCESS - Loop over usuarios and filter by role alumno
-    for user in usuarios:
-        if usuarios[user]['rol'] == 'alumno':
-            # OUTPUT - Print username and full name
-            print(f'{user} - {usuarios[user]["nombre"]}')
+    # PROCESS - Loop over users and filter by role student
+    for user in users:
+        if users[user]['role'] == 'student':
+            print(f'User: {user:<10} | Student: {users[user]["name"]}')
 
     print()
 
-    # INPUT - Ask which student to grade (by username)
-    alumno_sel = input('Alumno (username): ')
+    # PROCESS - Loop to grade multiple students (exit by entering invalid username)
+    while True:
 
-    # INPUT - Ask which subject to update
-    materia_sel = input('Materia: ')
+        # INPUT - Ask which student to grade
+        selected_student = input('Student to grade (username): ')
 
-    # INPUT - Ask for the new grade value
-    nueva_cal = float(input('Nueva calificación: '))
+        # PROCESS - If username is not a valid student, exit the loop
+        if selected_student not in grades:
+            break
 
-    # PROCESS - Overwrite the grade in calificaciones dictionary
-    calificaciones[alumno_sel][materia_sel] = nueva_cal
+        # OUTPUT - Show list of subjects
+        print()
+        for subject in subjects:
+            print(subject)
+        print()
 
-    # OUTPUT - Confirm the update
-    print('Calificación actualizada.')
+        # INPUT - Ask which subject and new grade
+        selected_subject = input('Subject to grade: ')
+        new_grade = float(input('New grade: '))
 
-elif rol == 'coordinador':
+        # OUTPUT - Show old => new grade and ask for confirmation
+        old_grade = grades[selected_student][selected_subject]
+        print(f'\nDo you confirm (yes/no)?')
+        print(f'{selected_subject}: {old_grade} ==> {new_grade}')
+        confirmation = input()
+
+        # PROCESS - Update grade only if confirmed
+        if confirmation == 'yes':
+            grades[selected_student][selected_subject] = new_grade
+            print('Grade updated!')
+            print(grades[selected_student])
+        else:
+            print('Write other thing to exit')
+
+        print()
+
+elif role == 'coordinator':
 
     # ----------------------------------------------------------
     # COORDINATOR MENU (read only)
     # ----------------------------------------------------------
 
-    # OUTPUT - Print list of teachers
-    print('=== MAESTROS ===')
+    # OUTPUT - Print list of professors
+    print('=' * 30)
+    print(' Professors')
+    print('=' * 30)
 
-    # PROCESS - Loop over usuarios and filter by role maestro
-    for user in usuarios:
-        if usuarios[user]['rol'] == 'maestro':
-            # OUTPUT - Print teacher info
-            print(f'{user} - {usuarios[user]["nombre"]}')
-
-    print()
-
-    # OUTPUT - Print list of subjects from materias tuple
-    print('=== MATERIAS ===')
-
-    # PROCESS - Loop over materias tuple
-    for materia in materias:
-        # OUTPUT - Print each subject name
-        print(materia)
+    # PROCESS - Loop over users and filter by role professor
+    for user in users:
+        if users[user]['role'] == 'professor':
+            print(f'User: {user} | Professor: {users[user]["name"]}')
 
     print()
 
-    # OUTPUT - Print all students and their grades
-    print('=== ALUMNOS Y CALIFICACIONES ===')
+    # OUTPUT - Print list of students
+    print('=' * 30)
+    print(' Students')
+    print('=' * 30)
 
-    # PROCESS - Loop over calificaciones (one entry per student)
-    for alumno in calificaciones:
+    # PROCESS - Loop over users and filter by role student
+    for user in users:
+        if users[user]['role'] == 'student':
+            print(f'User: {user:<10} | Student: {users[user]["name"]}')
 
-        # OUTPUT - Print student name and username
-        print(f'\n{usuarios[alumno]["nombre"]} ({alumno}):')
+    print()
 
-        # PROCESS - Loop over materias to print every grade
-        for materia in materias:
-            # OUTPUT - Print subject and grade indented
-            print(f'  {materia}: {calificaciones[alumno][materia]}')
+    # OUTPUT - Print full grades table
+    print('=' * 30)
+    print(' Records')
+    print('=' * 30)
+
+    # PROCESS - Build ordered list of student usernames for table columns
+    student_list = [u for u in grades]
+
+    # PROCESS - Define column widths
+    col_sub = 14
+    col_val = 7
+
+    # OUTPUT - Print table header with student usernames
+    header = f'{"SUBJECTS":{col_sub}}'
+    for student in student_list:
+        header += f' | {student:{col_val}}'
+    print(header)
+    print('-' * (col_sub + len(student_list) * (col_val + 3)))
+
+    # OUTPUT - Print one row per subject with each student's grade
+    for subject in subjects:
+        row = f'{subject[:col_sub]:{col_sub}}'
+        for student in student_list:
+            row += f' | {grades[student][subject]:{col_val}}'
+        print(row)
