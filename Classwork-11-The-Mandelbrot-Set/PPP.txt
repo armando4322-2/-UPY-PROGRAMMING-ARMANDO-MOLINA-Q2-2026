@@ -1,0 +1,54 @@
+# Classwork 11 - The Mandelbrot Set
+# Pseudocode (PPP)
+
+START
+
+# Step 1: read the configuration file into a dictionary
+CREATE empty dictionary config
+OPEN file "config.txt" for reading
+FOR each line in file
+    SPLIT line at "=" into parameter and value
+    IF value contains a decimal point THEN
+        config at parameter <- value converted to decimal number
+    ELSE
+        config at parameter <- value converted to whole number
+    END IF
+END FOR
+CLOSE file
+
+# Step 2: extract grid dimensions and iteration limit
+width <- config value for "ancho"
+height <- config value for "alto"
+max_iterations <- config value for "max_iter"
+
+# Step 3: prepare the output file
+OPEN file "mandelbrot.csv" for writing
+WRITE "row,column,iterations" to output file
+
+# Step 4: go through every point of the grid, row by row
+FOR row <- 0 TO height - 1
+    FOR column <- 0 TO width - 1
+
+        # Step 5: map this pixel position to a point on the complex plane
+        real <- real_min + (column / width) * (real_max - real_min)
+        imag <- imag_min + (row / height) * (imag_max - imag_min)
+        c <- complex number made of real and imag
+
+        # Step 6: apply the escape-time rule for this point
+        z <- 0 + 0i
+        iterations <- 0
+        WHILE magnitude of z is less than or equal to 2 AND iterations < max_iterations
+            z <- z * z + c
+            iterations <- iterations + 1
+        END WHILE
+
+        # Step 7: save the result of this point
+        WRITE row, column, iterations to output file
+
+    END FOR
+END FOR
+
+# Step 8: close the output file
+CLOSE output file
+
+END
