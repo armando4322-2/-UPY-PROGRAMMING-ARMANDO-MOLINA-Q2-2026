@@ -85,6 +85,30 @@ This was one of the more complex ones. I built a login system for a school where
 
 ---
 
+### Classwork 12 — The Mandelbrot Set (Visualization)
+
+**Folder:** `Classwork-12-The-Mandelbrot-Set`
+
+**What this assignment teaches:**
+This program takes the CSV data generated in Classwork 11 and turns it into a visual image of the Mandelbrot Set. It reads the iteration counts from the CSV file and converts each value into a color using the HSV color model — points inside the set get a fixed dark color, while escaped points get a brightness proportional to how quickly they escaped. I learned how to process image data pixel by pixel, how to work with HSV color spaces and convert them to RGB, and how to save the result as a PNG file. I also practiced reading configuration parameters from an external file and handling CSV data row by row.
+
+**Files:**
+| File | Description |
+|------|-------------|
+| `PPP.txt` | Pseudocode |
+| `flowchart.png` | Flowchart |
+| `mandelbrot_set_vis.py` | Python implementation |
+| `config.txt` | Configuration file |
+| `mandelbrot.csv` | Input data |
+| `mandelbrot.png` | Output image |
+| `Elefantes.png` | Sample render |
+| `Hipocampos.png` | Sample render |
+
+**AI Use Declaration:**
+> Yo, Armando Karin Molina Marrufo, declaro que NO he utilizado herramientas de Inteligencia Artificial para la elaboración de este trabajo académico. Afirmo que cuento con evidencias físicas y/o digitales que demuestran mi autoría, incluyendo pero no limitándose a: documentos manuscritos, materiales impresos con anotaciones o subrayado, historial de versiones de documentos electrónicos, o commits en repositorios de código. Reconozco y acepto que el profesor se reserva el derecho de solicitar dichas evidencias en cualquier momento, especialmente cuando existan sospechas o se detecten conductas que atenten contra la integridad académica, tales como plagio o uso no reportado de herramientas de IA.
+
+---
+
 ### Classwork 11 — The Mandelbrot Set
 
 **Folder:** `Classwork-11-The-Mandelbrot-Set`
