@@ -135,7 +135,7 @@ This program takes the CSV data generated in Classwork 11 and turns it into a vi
 **Folder:** `Classwork-13-Error-Handling`
 
 **What this assignment teaches:**
-In this one I went back to three programs I had already built and added proper error handling to each of them. The idea was to learn how to use try/except blocks to catch specific errors and show the user a clear message instead of crashing the program. I practiced handling different types of errors like ValueError, KeyError, SyntaxError, and ZeroDivisionError, and I learned that it's important to think about what could go wrong before it actually does.
+In this one I went back to three programs I had already built and added proper error handling to each of them.
 
 **Files:**
 | File | Description |
