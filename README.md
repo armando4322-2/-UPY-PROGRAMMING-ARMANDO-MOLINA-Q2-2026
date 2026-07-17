@@ -160,7 +160,7 @@ In this one I implemented the Bubble Sort algorithm and added a real-time visual
 | File | Description |
 |------|-------------|
 | `sorting_algorithms_ppp.txt` | Pseudocode (PPP) |
-| `flowchart.png` | Flowchart |
+| `sorting_algorithms_flowchart.png` | Flowchart |
 | `sorting_algorithms.py` | Python implementation |
 | `stddraw.py` | Graphics library |
 | `color.py` | Color helper module |
