@@ -135,7 +135,7 @@ This program takes the CSV data generated in Classwork 11 and turns it into a vi
 **Folder:** `Classwork-13-Error-Handling`
 
 **What this assignment teaches:**
-In this one I went back to three programs I had already built and added proper error handling to each of them.
+In this one I went back to three programs I had already built and added proper error handling to each of them. The idea was to learn how to use try/except blocks to catch specific errors and show the user a clear message instead of crashing the program. I practiced handling different types of errors like ValueError, KeyError, SyntaxError, and ZeroDivisionError, and I learned that it's important to think about what could go wrong before it actually does.
 
 **Files:**
 | File | Description |
@@ -143,6 +143,27 @@ In this one I went back to three programs I had already built and added proper e
 | `cw07-digito_verificador_utfsm.py` | CW07 with error handling |
 | `numerical_integration.py` | CW08 with error handling |
 | `spanish_verb_conjugator.py` | CW09 with error handling |
+
+**AI Use Declaration:**
+> Yo, Armando Karin Molina Marrufo, declaro que NO he utilizado herramientas de Inteligencia Artificial para la elaboración de este trabajo académico. Afirmo que cuento con evidencias físicas y/o digitales que demuestran mi autoría, incluyendo pero no limitándose a: documentos manuscritos, materiales impresos con anotaciones o subrayado, historial de versiones de documentos electrónicos, o commits en repositorios de código. Reconozco y acepto que el profesor se reserva el derecho de solicitar dichas evidencias en cualquier momento, especialmente cuando existan sospechas o se detecten conductas que atenten contra la integridad académica, tales como plagio o uso no reportado de herramientas de IA.
+
+---
+
+### Classwork 15 — Bubble Sort, Sorting Algorithms
+
+**Folder:** `Classwork-15-Sorting-Algorithms`
+
+**What this assignment teaches:**
+In this one I implemented the Bubble Sort algorithm and added a real-time visual animation using the stddraw graphics library. The idea was to understand how sorting algorithms work step by step — comparing adjacent pairs and swapping them until everything is in order. I also learned how to visualize data structures as bar charts and update the display after each comparison so you can actually see the algorithm moving elements around. I practiced separating logic from display by splitting the sort and drawing into different functions.
+
+**Files:**
+| File | Description |
+|------|-------------|
+| `sorting_algorithms_ppp.txt` | Pseudocode (PPP) |
+| `flowchart.png` | Flowchart |
+| `sorting_algorithms.py` | Python implementation |
+| `stddraw.py` | Graphics library |
+| `color.py` | Color helper module |
 
 **AI Use Declaration:**
 > Yo, Armando Karin Molina Marrufo, declaro que NO he utilizado herramientas de Inteligencia Artificial para la elaboración de este trabajo académico. Afirmo que cuento con evidencias físicas y/o digitales que demuestran mi autoría, incluyendo pero no limitándose a: documentos manuscritos, materiales impresos con anotaciones o subrayado, historial de versiones de documentos electrónicos, o commits en repositorios de código. Reconozco y acepto que el profesor se reserva el derecho de solicitar dichas evidencias en cualquier momento, especialmente cuando existan sospechas o se detecten conductas que atenten contra la integridad académica, tales como plagio o uso no reportado de herramientas de IA.
