@@ -1,0 +1,55 @@
+PPP - Bubble Sort with Visualization
+Classwork 15 - Sorting Algorithms
+Armando Karin Molina Marrufo
+
+============================================================
+# INPUT
+============================================================
+
+# Generate a list of n random integers between 0 and 100
+numbers <- list of 10 random integers between 0 and 100
+
+print "Before bubble sort: " + numbers
+
+============================================================
+# PROCESS - Bubble Sort with Step-by-Step Visualization
+============================================================
+
+# Configure the visualization canvas
+set X scale from -0.1 to 10
+set Y scale from -0.5 to max(numbers) + 1
+
+# Outer loop: one full sweep per element
+n <- length of numbers
+FOR sweep FROM 0 TO n-1 DO
+
+    # Inner loop: compare adjacent pairs
+    FOR pair FROM 0 TO (n - 2 - sweep) DO
+
+        # Draw bars BEFORE comparison, highlighting current pair
+        draw_bars(numbers, selected = (pair, pair + 1))
+
+        # Compare the two adjacent elements
+        IF numbers[pair] > numbers[pair + 1] THEN
+
+            # Swap them
+            temp <- numbers[pair]
+            numbers[pair] <- numbers[pair + 1]
+            numbers[pair + 1] <- temp
+
+            # Draw bars AFTER swap to show the change
+            draw_bars(numbers, selected = (pair, pair + 1))
+
+        END IF
+
+    END FOR
+
+END FOR
+
+============================================================
+# OUTPUT
+============================================================
+
+# Draw the final sorted state with no highlights
+draw_bars(numbers)
+show final canvas (wait for user to close)
