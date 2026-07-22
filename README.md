@@ -149,6 +149,28 @@ In this one I went back to three programs I had already built and added proper e
 
 ---
 
+### Classwork 14 — Error Handling (CW10, CW11, CW12)
+
+**Folder:** `Classwork-14-Error-Handling`
+
+**What this assignment teaches:**
+In this one I added error handling to three more programs: the School Management System (CW10), the Mandelbrot Set generator (CW11), and the Mandelbrot Set visualizer (CW12). I learned how to create and raise custom exceptions, catch KeyError and FileNotFoundError, and handle bad configuration files gracefully instead of crashing. I also practiced how to properly close files when an error occurs and how to validate input data before using it.
+
+**Files:**
+| File | Description |
+|------|-------------|
+| `CW10.py` | School Management System with error handling |
+| `CW11.py` | Mandelbrot Set generator with error handling |
+| `CW12.py` | Mandelbrot Set visualizer with error handling |
+| `config.txt` | Configuration file for CW11/CW12 |
+| `mandelbrot.csv` | Mandelbrot data output |
+| `mandelbrot.png` | Mandelbrot image output |
+
+**AI Use Declaration:**
+> Yo, Armando Karin Molina Marrufo, declaro que NO he utilizado herramientas de Inteligencia Artificial para la elaboración de este trabajo académico. Afirmo que cuento con evidencias físicas y/o digitales que demuestran mi autoría, incluyendo pero no limitándose a: documentos manuscritos, materiales impresos con anotaciones o subrayado, historial de versiones de documentos electrónicos, o commits en repositorios de código. Reconozco y acepto que el profesor se reserva el derecho de solicitar dichas evidencias en cualquier momento, especialmente cuando existan sospechas o se detecten conductas que atenten contra la integridad académica, tales como plagio o uso no reportado de herramientas de IA.
+
+---
+
 ### Classwork 15 — Bubble Sort, Sorting Algorithms
 
 **Folder:** `Classwork-15-Sorting-Algorithms`
