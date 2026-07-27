@@ -171,6 +171,25 @@ In this one I added error handling to three more programs: the School Management
 
 ---
 
+### Classwork 16 — Recursive Functions
+
+**Folder:** `Classwork-16-Recursive-Functions`
+
+**What this assignment teaches:**
+In this one I implemented 8 recursive functions in Python, each one exploring a different pattern of recursion. I learned what a base case is (the point where the recursion stops) and what a recursive case is (how the problem gets smaller each call). I also added error handling to every function so that invalid inputs like negative numbers, wrong types, or division by zero don't crash the program. The most interesting one was aplanar_json, which recurses over a nested dictionary structure instead of a number.
+
+**Files:**
+| File | Description |
+|------|-------------|
+| `recursive_functions_ppp.txt` | Pseudocode (PPP) |
+| `recursive_functions_flowchart.png` | Flowchart |
+| `recursive_functions.py` | Python implementation |
+
+**AI Use Declaration:**
+> Yo, Armando Karin Molina Marrufo, declaro que NO he utilizado herramientas de Inteligencia Artificial para la elaboración de este trabajo académico. Afirmo que cuento con evidencias físicas y/o digitales que demuestran mi autoría, incluyendo pero no limitándose a: documentos manuscritos, materiales impresos con anotaciones o subrayado, historial de versiones de documentos electrónicos, o commits en repositorios de código. Reconozco y acepto que el profesor se reserva el derecho de solicitar dichas evidencias en cualquier momento, especialmente cuando existan sospechas o se detecten conductas que atenten contra la integridad académica, tales como plagio o uso no reportado de herramientas de IA.
+
+---
+
 ### Classwork 15 — Bubble Sort, Sorting Algorithms
 
 **Folder:** `Classwork-15-Sorting-Algorithms`
