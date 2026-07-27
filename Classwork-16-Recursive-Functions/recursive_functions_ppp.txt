@@ -1,0 +1,141 @@
+PPP - Recursive Functions
+Classwork 16
+Armando Karin Molina Marrufo
+==============================================
+
+FUNCTION: recursiva(n)
+----------------------------------------------
+INPUT:
+  - n: integer >= 0
+
+PROCESS:
+  - If n is not an integer → raise TypeError
+  - If n < 0 → raise ValueError
+  - If n == 0 → return "Done!"  (base case)
+  - Else → print n, call recursiva(n - 1)  (recursive case)
+
+OUTPUT:
+  - Prints n, n-1, n-2 ... 1
+  - Returns "Done!" when n reaches 0
+
+==============================================
+
+FUNCTION: fibonacci(n)
+----------------------------------------------
+INPUT:
+  - n: integer >= 0
+
+PROCESS:
+  - If n is not an integer → raise TypeError
+  - If n < 0 → raise ValueError
+  - If n == 0 → return 0  (base case)
+  - If n == 1 → return 1  (base case)
+  - Else → return fibonacci(n-1) + fibonacci(n-2)  (recursive case)
+
+OUTPUT:
+  - Returns the nth Fibonacci number
+
+==============================================
+
+FUNCTION: factorial(n)
+----------------------------------------------
+INPUT:
+  - n: integer >= 0
+
+PROCESS:
+  - If n is not an integer → raise TypeError
+  - If n < 0 → raise ValueError
+  - If n == 0 or n == 1 → return 1  (base case)
+  - Else → return factorial(n-1) * n  (recursive case)
+
+OUTPUT:
+  - Returns n! (n factorial)
+
+==============================================
+
+FUNCTION: multiplicacion_recursiva(n, m)
+----------------------------------------------
+INPUT:
+  - n: integer (the number to multiply)
+  - m: integer >= 0 (how many times to add n)
+
+PROCESS:
+  - If n or m is not an integer → raise TypeError
+  - If m < 0 → raise ValueError
+  - If m == 0 → return 0  (base case)
+  - Else → return multiplicacion_recursiva(n, m-1) + n  (recursive case)
+
+OUTPUT:
+  - Returns n * m (computed as repeated addition)
+
+==============================================
+
+FUNCTION: division_entera_recursiva(dividendo, divisor)
+----------------------------------------------
+INPUT:
+  - dividendo: integer
+  - divisor: integer != 0
+
+PROCESS:
+  - If divisor == 0 → raise ZeroDivisionError
+  - If dividendo or divisor is not an integer → raise TypeError
+  - If dividendo - divisor < 0 → return 0  (base case)
+  - Else → return division_entera_recursiva(dividendo - divisor, divisor) + 1  (recursive case)
+
+OUTPUT:
+  - Returns the integer quotient of dividendo / divisor
+
+==============================================
+
+FUNCTION: potencia_recursiva(base, exponente)
+----------------------------------------------
+INPUT:
+  - base: number
+  - exponente: integer >= 0
+
+PROCESS:
+  - If exponente is not an integer → raise TypeError
+  - If exponente < 0 → raise ValueError
+  - If exponente == 0 → return 1  (base case)
+  - Else → return potencia_recursiva(base, exponente-1) * base  (recursive case)
+
+OUTPUT:
+  - Returns base ^ exponente
+
+==============================================
+
+FUNCTION: serie_collatz(n)
+----------------------------------------------
+INPUT:
+  - n: positive integer >= 1
+
+PROCESS:
+  - If n is not an integer → raise TypeError
+  - If n <= 0 → raise ValueError
+  - If n == 1 → print "END!", return 0  (base case)
+  - If n is even → print n//2, call serie_collatz(n//2)  (recursive case)
+  - If n is odd  → print 3*n+1, call serie_collatz(3*n+1)  (recursive case)
+
+OUTPUT:
+  - Prints each step of the Collatz sequence until reaching 1
+
+==============================================
+
+FUNCTION: aplanar_json(diccionario, clave_padre='', separador='.')
+----------------------------------------------
+INPUT:
+  - diccionario: dict (may be nested)
+  - clave_padre: string prefix for keys (default: '')
+  - separador: string separator between key levels (default: '.')
+
+PROCESS:
+  - If diccionario is not a dict → raise TypeError
+  - For each (key, value) in diccionario:
+      - Build nueva_llave = clave_padre + separador + key (or just key if no parent)
+      - If value is a dict → recursively call aplanar_json(value, nueva_llave, separador)
+        and add all resulting key-value pairs  (recursive case)
+      - Else → add (nueva_llave, value) as a plain entry  (base case)
+  - Return the resulting flat dictionary
+
+OUTPUT:
+  - Returns a single-level dict with dot-separated keys representing the original hierarchy
