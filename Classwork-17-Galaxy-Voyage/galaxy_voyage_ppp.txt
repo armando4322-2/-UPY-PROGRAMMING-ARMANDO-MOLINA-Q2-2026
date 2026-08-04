@@ -1,0 +1,145 @@
+PPP - Galaxy Voyage, Part 1: Concept, Planning, Perspective Math
+Classwork 17
+Armando Karin Molina Marrufo
+=================================================================
+
+GOAL FOR PART 1:
+  Build an animated perspective grid using pygame.
+  The grid gives the illusion of flying through a corridor in 3D.
+
+=================================================================
+
+SUBSYSTEMS IDENTIFIED (system decomposition):
+  1. Grid / Perspective  → convert flat lines into a 3D-looking corridor
+  2. Ship               → (Part 2) position, hover, input
+  3. Scroll             → move the world toward the player over time
+  4. Path               → (Part 2) which cells are safe
+  5. Collision          → (Part 2) is ship over a safe cell?
+  6. Game State         → start → playing → game_over / victory
+
+DATA STRUCTURES PLANNED:
+  x_positions  : list  — x coordinates for vertical lines
+  y_positions  : list  — y coordinates for horizontal lines (recomputed each frame)
+  vanishing_point: tuple — (vx, vy), fixed horizon point
+  config       : dict  — all tunable parameters from config.txt
+  scroll_offset: float — current animation position (0.0 → 1.0, loops)
+
+=================================================================
+
+FUNCTION: load_config(filename)
+-----------------------------------------------------------------
+INPUT:
+  - filename: path to config.txt
+
+PROCESS:
+  - Open file, read each line
+  - Split on '=' to get parameter and value
+  - If value contains ',' → parse as tuple of ints (e.g. colors)
+  - If value contains '.' → parse as float
+  - Else → parse as int
+  - Store in config dict
+
+OUTPUT:
+  - Returns config dict with all game parameters
+
+=================================================================
+
+FUNCTION: calculate_x_positions(surface, vertical_lines, space)
+-----------------------------------------------------------------
+INPUT:
+  - surface: pygame screen
+  - vertical_lines: how many vertical lines to draw
+  - space: fraction of screen width between lines
+
+PROCESS:
+  - Get screen width
+  - Compute spacing = space * width
+  - Start offset at -(vertical_lines / 2)
+  - For each line: append center + offset * spacing to list
+  - Increment offset by 1
+
+OUTPUT:
+  - Returns list of x positions, equally spaced, centered on screen
+
+=================================================================
+
+FUNCTION: calculate_y_positions(surface, horizontal_lines, vanishing_point, scroll_offset, power)
+-----------------------------------------------------------------
+INPUT:
+  - surface: pygame screen
+  - horizontal_lines: number of horizontal lines
+  - vanishing_point: (vx, vy) tuple
+  - scroll_offset: float 0.0–1.0 (advances each frame)
+  - power: exponent for non-linear compression (2.0 = quadratic)
+
+PROCESS:
+  - available_height = screen_height - vy
+  - For each of the horizontal_lines:
+      t = ((i+1) / horizontal_lines + scroll_offset) % 1.0
+      t_curved = t ^ power        ← non-linear: bunches near horizon
+      y = vy + t_curved * available_height
+  - Only include y values between vy and screen_height
+
+OUTPUT:
+  - Returns list of y positions with perspective-correct spacing
+
+=================================================================
+
+FUNCTION: draw_vertical_lines(surface, x_positions, vanishing_point, color, line_width)
+-----------------------------------------------------------------
+INPUT:
+  - surface, x_positions, vanishing_point, color, line_width
+
+PROCESS:
+  - For each x in x_positions:
+      Draw line from (x, screen_height) to (vanishing_point_x, vanishing_point_y)
+      → lines converge toward the vanishing point
+
+OUTPUT:
+  - Draws perspective vertical lines on screen
+
+=================================================================
+
+FUNCTION: draw_horizontal_lines(surface, y_positions, x_positions, vanishing_point, color, line_width)
+-----------------------------------------------------------------
+INPUT:
+  - surface, y_positions, x_positions, vanishing_point, color, line_width
+
+PROCESS:
+  - For each y in y_positions:
+      Interpolate left endpoint along leftmost vertical line
+      Interpolate right endpoint along rightmost vertical line
+        t  = (y - screen_height) / (vy - screen_height)
+        xl = left_x  + t * (vx - left_x)
+        xr = right_x + t * (vx - right_x)
+      Draw horizontal line from (xl, y) to (xr, y)
+
+OUTPUT:
+  - Draws horizontal cross-lines that narrow near the horizon
+
+=================================================================
+
+MAIN LOOP
+-----------------------------------------------------------------
+INPUT:
+  - Config from config.txt
+  - Keyboard events (QUIT, ESCAPE)
+
+PROCESS:
+  1. Load config
+  2. Initialize pygame window
+  3. Pre-calculate x_positions (does not change)
+  4. Set vanishing_point = (width * 0.5, height * 0.25)
+  5. Loop while running:
+       a. Handle events (quit on QUIT or ESCAPE)
+       b. Advance scroll_offset += scroll_speed
+       c. Recalculate y_positions with new scroll_offset
+       d. Fill background
+       e. Draw vertical lines (converging to vanishing point)
+       f. Draw horizontal lines (narrowing near horizon)
+       g. Draw vanishing point marker
+       h. Flip display, tick clock
+
+OUTPUT:
+  - Animated perspective corridor scrolling toward the viewer
+  - ESC or window close exits the program
