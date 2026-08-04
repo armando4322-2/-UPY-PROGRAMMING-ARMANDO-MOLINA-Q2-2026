@@ -192,6 +192,27 @@ In this one I implemented the Bubble Sort algorithm and added a real-time visual
 
 ---
 
+### Classwork 17 — Galaxy Voyage (Part 1: Perspective Math)
+
+**Folder:** `Classwork-17-Galaxy-Voyage`
+
+**What this assignment teaches:**
+This is the first part of Galaxy Voyage, a pseudo-3D endless runner game built with pygame. In this session I learned how perspective works mathematically — how lines converge toward a vanishing point and how non-linear spacing (using a power transform) makes horizontal lines bunch up near the horizon and spread out near the bottom, giving the illusion of depth. I also practiced loading all game parameters from a config file so I can tune the look without touching the code.
+
+**Files:**
+| File | Description |
+|------|-------------|
+| `galaxy_voyage_ppp.txt` | Pseudocode (PPP) |
+| `galaxy_voyage_flowchart.png` | Flowchart of game states |
+| `main.py` | Animated perspective grid |
+| `config.txt` | Game configuration |
+| `screenshot.png` | Screenshot of the game running |
+
+**AI Use Declaration:**
+> Yo, Armando Karin Molina Marrufo, declaro que NO he utilizado herramientas de Inteligencia Artificial para la elaboración de este trabajo académico. Afirmo que cuento con evidencias físicas y/o digitales que demuestran mi autoría, incluyendo pero no limitándose a: documentos manuscritos, materiales impresos con anotaciones o subrayado, historial de versiones de documentos electrónicos, o commits en repositorios de código. Reconozco y acepto que el profesor se reserva el derecho de solicitar dichas evidencias en cualquier momento, especialmente cuando existan sospechas o se detecten conductas que atenten contra la integridad académica, tales como plagio o uso no reportado de herramientas de IA.
+
+---
+
 ### Classwork 16 — Recursive Functions
 
 **Folder:** `Classwork-16-Recursive-Functions`
