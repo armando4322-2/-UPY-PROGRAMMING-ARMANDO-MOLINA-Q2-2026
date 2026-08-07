@@ -1,134 +1,146 @@
-# Galaxy Voyage — Part 1: Concept, planning, perspective math
-# Classwork 17 — Armando Karin Molina Marrufo
-
+#main.py
 import pygame
 
-# ============================================================
-# INPUT - Load all settings from config.txt
-# ============================================================
 config = {}
 with open('config.txt', 'r') as file:
     for line in file:
-        line = line.strip()
-        if not line or '=' not in line:
-            continue
-        parameter, value = line.split('=')
+        parameter, value = line.strip().split("=")
         if ',' in value:
-            config[parameter] = tuple(int(c.strip()) for c in value.split(','))
+            config[parameter] = tuple(int(c.strip()) for c in value.split(","))
         elif '.' in value:
             config[parameter] = float(value)
         else:
             config[parameter] = int(value)
 
-# ============================================================
-# PROCESS - Helper functions
-# ============================================================
+vanishing_point = (config['width'] * 0.5, config['height'] * 0.25)  # Adjusted to be a tuple for the vanishing point
 
-def calculate_x_positions(surface, vertical_lines, space):
-    # PROCESS - Build a list of equally-spaced x positions centered on screen
-    x_positions = []
-    width        = surface.get_width()
-    spacing      = space * width
-    central_line = width / 2
-    offset       = -int(vertical_lines / 2)
-    for _ in range(vertical_lines):
-        x_positions.append(central_line + offset * spacing)
-        offset += 1
-    return x_positions
-
-def calculate_y_positions(surface, horizontal_lines, vanishing_point, scroll_offset, power=2.0):
-    # PROCESS - Apply power transform so lines bunch near horizon, spread near bottom
-    # t = 0 at horizon, t = 1 at bottom of screen
-    height           = surface.get_height()
-    vy               = vanishing_point[1]
-    available_height = height - vy
-    y_positions      = []
-    for i in range(horizontal_lines):
-        t = ((i + 1) / horizontal_lines + scroll_offset) % 1.0
-        t_curved = t ** power          # non-linear spacing = depth illusion
-        y = vy + t_curved * available_height
-        if vy < y < height:
-            y_positions.append(int(y))
-    return y_positions
-
-def draw_vertical_lines(surface, x_positions, vanishing_point, color, line_width=2):
-    # OUTPUT - Draw each vertical line from its bottom x toward the vanishing point
-    height = surface.get_height()
-    vx, vy = vanishing_point
-    for x in x_positions:
-        pygame.draw.line(surface, color, (int(x), height), (int(vx), int(vy)), line_width)
-
-def draw_horizontal_lines(surface, y_positions, x_positions, vanishing_point, color, line_width=1):
-    # OUTPUT - Draw horizontal lines; left/right endpoints shrink toward vanishing point
-    screen_height = surface.get_height()
-    vx, vy        = vanishing_point
-    left_x  = x_positions[0]
-    right_x = x_positions[-1]
-    for y in y_positions:
-        # PROCESS - Interpolate endpoints along the outermost perspective lines
-        denom = vy - screen_height
-        t  = (y - screen_height) / denom if denom != 0 else 0
-        xl = left_x  + t * (vx - left_x)
-        xr = right_x + t * (vx - right_x)
-        pygame.draw.line(surface, color, (int(xl), y), (int(xr), y), line_width)
-
-# ============================================================
-# INITIALIZATION
-# ============================================================
+#INITIALIZATION
 pygame.init()
 screen = pygame.display.set_mode((config['width'], config['height']))
-pygame.display.set_caption('Galaxy Voyage — Part 1')
-clock = pygame.time.Clock()
 
-# PROCESS - Compute vertical line positions once (they don't change)
+#CONFIGURATION
+def calculate_x_positions(surface, vertical_lines, space):
+    x_positions = []
+    width = surface.get_width()
+    spacing = space * width
+    central_line = width / 2
+    offset = -int(vertical_lines / 2) 
+
+    for i in range(vertical_lines):
+        x_positions.append(central_line + (offset * spacing))
+        offset += 1
+
+    return x_positions
+def calculate_y_positions(surface, horizontal_lines):
+    y_positions = []
+    height = surface.get_height()
+    spacing = height / (horizontal_lines + 1) 
+
+    for i in range(1, horizontal_lines + 1):
+        y_positions.append(i * spacing)
+
+    return y_positions
+
+def draw_vertical_lines(surface, x_positions, color, width=2):
+    height = surface.get_height()
+    
+    for x in x_positions:
+        pygame.draw.line(surface, color, (x, 0), (x, height), width)
+def draw_perspective_vertical_lines(surface, x_positions, vanishing_point, color, width):
+    height = surface.get_height()
+
+    for x in x_positions:
+        pygame.draw.line(surface, color, vanishing_point, (x, height), width)
+
+def draw_horizontal_lines(surface, x_positions, y_positions, color, width=2):
+    for y in y_positions:
+        start_point = (x_positions[0], y)  # Start from the first vertical line
+        end_point   = (x_positions[-1], y)   # End at the last vertical line
+        pygame.draw.line(surface, color, start_point, end_point, width)
+
+def draw_perspective_horizontal_lines(surface, x_positions, y_positions, vanishing_point, color, width=2):
+    height = surface.get_height()
+    start_point = vanishing_point
+
+    diagonal_1 = (start_point, (x_positions[0], height))
+    diagonal_2 = (start_point, (x_positions[-1], height))
+
+    for y in y_positions:
+        if y > vanishing_point[1]: # Only draw lines below the vanishing point
+            point_1 = (x_positions[0], y)
+            point_2 = (x_positions[-1], y)
+
+            h_line = (point_1, point_2)
+            intersection_1 = find_intersection(diagonal_1, h_line)
+            intersection_2 = find_intersection(diagonal_2, h_line)
+
+            pygame.draw.line(surface, color, intersection_1, intersection_2, width)
+
+def find_intersection(line1, line2):
+
+    start_point_line_1, end_point_line_1 = line1
+    start_point_line_2, end_point_line_2 = line2
+
+    x1, y1 = start_point_line_1
+    x2, y2 = end_point_line_1
+    x3, y3 = start_point_line_2
+    x4, y4 = end_point_line_2
+
+    denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+    common_factor = x1 * y2 - y1 * x2
+    common_factor2 = x3 * y4 - y3 * x4
+
+    if denominator == 0:
+        return None  # Lines are parallel
+
+    intersection_x = (common_factor * (x3 - x4) - (x1 - x2) * common_factor2) / denominator
+    intersection_y = (common_factor * (y3 - y4) - (y1 - y2) * common_factor2) / denominator
+
+    return (intersection_x, intersection_y)
+
+def non_linear_spacing(surface, y_positions, vanishing_point, power=2.0):
+    height = surface.get_height()
+    v_y = vanishing_point[1]
+    available_height = height - v_y
+    y_curved = []
+    for y in y_positions:
+        t = (y - v_y) / available_height if available_height != 0 else 0
+        new_y = v_y + available_height * (t ** power)
+        y_curved.append(new_y)
+    return y_curved
+
+#MAIN LOOP
 x_positions = calculate_x_positions(
-    surface        = screen,
-    vertical_lines = config['vertical_lines'],
-    space          = config['space']
+    surface=screen,
+    vertical_lines=config['vertical_lines'],
+    space=config['space']
 )
-print(f"x_positions (sanity check): {[round(x) for x in x_positions]}")
+print(x_positions)
 
-# PROCESS - Vanishing point: top-center of the screen
-vanishing_point = (config['width'] * 0.5, config['height'] * 0.25)
-
-# PROCESS - Scroll state
-scroll_offset = 0.0
-
-# ============================================================
-# MAIN LOOP
-# ============================================================
+y_positions = calculate_y_positions(
+    surface=screen,
+    horizontal_lines=config['horizontal_lines']
+)
+y_curved = non_linear_spacing(
+    surface=screen,
+    y_positions=y_positions,
+    vanishing_point=vanishing_point
+)
+print(y_positions)
 running = True
 while running:
-
-    # INPUT - Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            running = False
 
-    # PROCESS - Advance scroll offset each frame
-    scroll_offset = (scroll_offset + config['scroll_speed']) % 1.0
-
-    # PROCESS - Recalculate horizontal line positions with current scroll
-    y_positions = calculate_y_positions(
-        surface          = screen,
-        horizontal_lines = config['horizontal_lines'],
-        vanishing_point  = vanishing_point,
-        scroll_offset    = scroll_offset,
-        power            = config['perspective_power']
-    )
-
-    # OUTPUT - Clear screen and draw grid
     screen.fill(config['bg_color'])
-    draw_vertical_lines(screen, x_positions, vanishing_point, config['line_color'])
-    draw_horizontal_lines(screen, y_positions, x_positions, vanishing_point, config['line_color'])
-
-    # OUTPUT - Draw vanishing point marker
-    pygame.draw.circle(screen, (255, 200, 50),
-                       (int(vanishing_point[0]), int(vanishing_point[1])), 4)
-
+    #draw_vertical_lines(screen, x_positions, config['line_color'])
+    #draw_horizontal_lines(screen, x_positions, y_positions, config['line_color'])
+    #draw_perspective_horizontal_lines(screen, x_positions, y_positions, vanishing_point, config['line_color'], width=2)
+    draw_perspective_vertical_lines(screen, x_positions, vanishing_point, config['line_color'], width=2)
+    draw_perspective_horizontal_lines(screen, x_positions, y_curved, vanishing_point, config['line_color'], width = 2)
     pygame.display.flip()
-    clock.tick(config['fps'])
 
 pygame.quit()
+
+
