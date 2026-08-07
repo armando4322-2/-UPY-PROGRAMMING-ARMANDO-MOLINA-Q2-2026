@@ -1,10 +1,7 @@
 width=800
 height=600
-bg_color=10,10,30
-line_color=100,180,255
-space=0.12
-vertical_lines=9
-horizontal_lines=14
-scroll_speed=0.005
-perspective_power=2.0
-fps=60
+vertical_lines=7
+horizontal_lines=5
+space=0.2
+bg_color=30,30,30
+line_color=255,255,255
